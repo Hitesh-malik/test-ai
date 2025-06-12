@@ -9,6 +9,7 @@ const AnalyticsTracker = () => {
   useEffect(() => {
     // Track page view whenever location changes
     const path = location.pathname + location.search;
+    console.log('Tracking page view for:', path);
     trackPageView(path);
   }, [location]);
 
