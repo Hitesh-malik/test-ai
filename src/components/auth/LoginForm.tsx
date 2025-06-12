@@ -89,11 +89,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
       ReactGA.event({
         action: 'login clicked',
         category: 'login',
-        label: 'successful_login',
+        label: username,
         value: 1,
-        custom_map: {
-          user_name: username,
-        }
       });
 
       // Optional: Set user properties for better tracking
