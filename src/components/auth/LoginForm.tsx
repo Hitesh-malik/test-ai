@@ -5,7 +5,7 @@ import { motion } from 'framer-motion';
 import FormInput from './FormInput';
 import BrandLogo from './BrandLogo';
 import { useAuth } from '../../context/AuthContext';
-
+import ReactGA from 'react-ga4';
 interface LoginFormProps {
   onSubmit: (formData: {
     username: string;
@@ -79,7 +79,25 @@ const LoginForm: React.FC<LoginFormProps> = ({
     try {
       // Use the login function from AuthContext
       const result = await login(username, password, 'defaultThirdArgument');
+      // Send login event to Google Analytics
+      ReactGA.event({
+        action: 'login',
+        category: 'authentication',
+        label: 'successful_login',
+        value: 1,
+        custom_map: {
+          user_name: username,
+        }
+      });
 
+      // Optional: Set user properties for better tracking
+      ReactGA.set({
+        user_id: 10,
+        custom_parameters: {
+          user_email:username,
+          user_name: username
+        }
+      });
       if (result.success) {
         // Redirect to dashboard on successful login
         navigate('/dashboard');
@@ -243,7 +261,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
           <p className="text-white text-opacity-70">
             Don't have an account?{' '}
             <Link to="/signup" className="text-white font-medium hover:text-purple-200 transition-colors">
-              Sign up 
+              Sign up
             </Link>
           </p>
         </motion.div>

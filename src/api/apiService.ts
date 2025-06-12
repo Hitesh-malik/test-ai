@@ -78,7 +78,7 @@ const apiService = {
         ...options,
         headers,
       });
-
+      
       if (response?.status === 401) {
         // Check if the current API call is for login or signup
         const currentUrl = window.location.pathname;
