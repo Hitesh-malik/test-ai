@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import authUtils from '../utils/authUtils';
 import apiService from '../api/apiService';
 import { showToast } from '../utils/toastUtils';
-
+import ReactGA from 'react-ga4';
 // Define the type for user
 interface User {
   id: string;
@@ -54,16 +54,45 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     initAuth();
   }, []);
 
-  // Login function
+
+
   const login = async (username: string, password: string) => {
     try {
-      const response = await apiService.auth.login({ username, password });     
+      const response = await apiService.auth.login({ username, password });
 
       if (response.success && response.data) {
-        authUtils.setToken(response?.data?.token);
-        authUtils.setUser(response?.data ?? {});
-        setUser(response?.data ?? {});
+        const { token, email, fullName, id, type, username: responseUsername } = response.data;
+
+        authUtils.setToken(token);
+        authUtils.setUser(response.data);
+        setUser(response.data);
         setIsAuthenticated(true);
+
+        // Send login event to Google Analytics
+        ReactGA.event({
+          action: 'login',
+          category: 'authentication',
+          label: 'successful_login',
+          value: 1,
+          custom_map: {
+            user_email: email,
+            user_name: fullName,
+            user_id: id,
+            login_method: 'email',
+            user_type: type,
+            username: responseUsername
+          }
+        });
+
+        // Optional: Set user properties for better tracking
+        ReactGA.set({
+          user_id: id,
+          custom_parameters: {
+            user_email: email,
+            user_name: fullName
+          }
+        });
+
         showToast.success('Login successful!');
         return { success: true };
       } else {
