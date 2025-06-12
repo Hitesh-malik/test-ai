@@ -1,5 +1,5 @@
 // src/components/auth/LoginForm.tsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import FormInput from './FormInput';
@@ -33,7 +33,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
     general?: string;
   }>({});
   const [loading, setLoading] = useState(false);
-
+  useEffect(() => {
+    // Initialize Google Analytics
+    ReactGA.send({
+      hitType: "pageview",
+      page: window.location.pathname + window.location.search
+    });
+  }, []);
   const validateForm = () => {
     const newErrors: {
       username?: string;
@@ -81,8 +87,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
       const result = await login(username, password, 'defaultThirdArgument');
       // Send login event to Google Analytics
       ReactGA.event({
-        action: 'login',
-        category: 'authentication',
+        action: 'login clicked',
+        category: 'login',
         label: 'successful_login',
         value: 1,
         custom_map: {
@@ -94,7 +100,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
       ReactGA.set({
         user_id: 10,
         custom_parameters: {
-          user_email:username,
+          user_email: username,
           user_name: username
         }
       });
