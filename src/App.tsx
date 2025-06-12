@@ -5,7 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import { router } from './routes';
 import { Toaster } from 'react-hot-toast';
 import { useTheme } from './hooks/useTheme';
-import { initGA, trackPageView } from './utils/analytics';
+import { initGA, isGAInitialized, trackPageView } from './utils/analytics';
 import authUtils from './utils/authUtils';
 
 function App() {
@@ -14,7 +14,8 @@ function App() {
   useEffect(() => {
     // Initialize Google Analytics when app starts
     initGA();
-    
+    console.log('Google Analytics initialized',isGAInitialized());
+    // Check if user is authenticated
     // Track initial page view
     trackPageView(window.location.pathname + window.location.search);
   }, []);
