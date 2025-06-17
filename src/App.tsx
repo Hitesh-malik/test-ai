@@ -6,7 +6,7 @@ import { router } from './routes';
 import { Toaster } from 'react-hot-toast';
 import { useTheme } from './hooks/useTheme';
 import { initGA, isGAInitialized, trackPageView } from './utils/analytics';
-import authUtils from './utils/authUtils';
+ 
 
 function App() {
   const { theme } = useTheme();

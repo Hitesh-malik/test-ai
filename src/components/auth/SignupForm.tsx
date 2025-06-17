@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import FormInput from './FormInput';
 import PasswordStrengthMeter from './PasswordStrengthMeter';
 import { useAuth } from '../../context/AuthContext';
+import ReactGA from 'react-ga4';
 
 interface SignupFormProps {
   onSubmit: (formData: {
@@ -149,7 +150,13 @@ const SignupForm: React.FC<SignupFormProps> = ({
     try {
       // Convert coding level from string to number using the mapping
       const codingLevelNumber = codingLevel ? codingLevelValues[codingLevel as keyof typeof codingLevelValues] : 0;
-
+       // Send login event to Google Analytics
+      ReactGA.event({
+        action: 'signup clicked',
+        category: 'signup',
+        label: username,
+        value: 1,
+      });
       // Use the signup function from AuthContext
       const result = await signup({
         username,

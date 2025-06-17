@@ -103,14 +103,6 @@ const LoginForm: React.FC<LoginFormProps> = ({
         value: 1,
       });
 
-      // Optional: Set user properties for better tracking
-      ReactGA.set({
-        user_id: 10,
-        custom_parameters: {
-          user_email: username,
-          user_name: username
-        }
-      });
       if (result.success) {
         // Redirect to dashboard on successful login
         navigate('/dashboard');
