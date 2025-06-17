@@ -150,11 +150,11 @@ const SignupForm: React.FC<SignupFormProps> = ({
     try {
       // Convert coding level from string to number using the mapping
       const codingLevelNumber = codingLevel ? codingLevelValues[codingLevel as keyof typeof codingLevelValues] : 0;
-       // Send login event to Google Analytics
+      // Send login event to Google Analytics
       ReactGA.event({
         action: 'signup clicked',
         category: 'signup',
-        label: email,
+        label: `${email} - ${username}  `,
         value: 1,
       });
       // Use the signup function from AuthContext
