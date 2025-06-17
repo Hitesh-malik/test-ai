@@ -154,7 +154,7 @@ const SignupForm: React.FC<SignupFormProps> = ({
       ReactGA.event({
         action: 'signup clicked',
         category: 'signup',
-        label: username,
+        label: email,
         value: 1,
       });
       // Use the signup function from AuthContext
